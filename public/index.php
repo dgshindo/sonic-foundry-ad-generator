@@ -1,6 +1,17 @@
 <?php
 declare(strict_types=1);
+
+$defaultProductName = 'The Sonic Identity Blueprint';
+
+$defaultDescription = 'The Sonic Identity Blueprint is a practical guide for storytellers and creators who want to make AI-generated music that sounds intentional, consistent, and uniquely their own. Rather than focusing on technical tutorials or generic prompt formulas, the book teaches readers how to define an artist’s voice, emotional world, sound, values, and creative boundaries. With real-world examples and a hands-on workbook, readers learn to transform their stories and ideas into a cohesive sonic identity they can use with AI music tools such as Suno.';
+
+$defaultAudience = 'Aspiring creators, storytellers, writers, and AI music enthusiasts who have ideas and stories to tell but may not have traditional musical training. Especially suited for people using AI music tools who want to move beyond random song generation and create a consistent, recognizable artistic sound across individual songs and complete albums.';
+
+$defaultPrice = '$24.99';
+
+$defaultSalesUrl = 'https://mbell314.gumroad.com/l/hykfur';
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,7 +39,7 @@ declare(strict_types=1);
       type="text"
       id="product_name"
       name="product_name"
-      value="Sonic Foundry"
+      value="<?= htmlspecialchars($defaultProductName) ?>"
       required
     >
   </div>
@@ -40,7 +51,7 @@ declare(strict_types=1);
       name="description"
       rows="6"
       required
-    ></textarea>
+    ><?= htmlspecialchars($defaultDescription) ?></textarea>
   </div>
 
   <div class="form-group">
@@ -50,7 +61,7 @@ declare(strict_types=1);
       name="audience"
       rows="4"
       required
-    ></textarea>
+    ><?= htmlspecialchars($defaultAudience) ?></textarea>
   </div>
 
   <div class="form-row">
@@ -89,6 +100,7 @@ declare(strict_types=1);
         id="price"
         name="price"
         placeholder="$9.99"
+        value="<?= htmlspecialchars($defaultPrice) ?>"
       >
     </div>
 
@@ -99,6 +111,7 @@ declare(strict_types=1);
         id="sales_url"
         name="sales_url"
         placeholder="https://..."
+        value="<?= htmlspecialchars($defaultSalesUrl) ?>"
       >
     </div>
 
