@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../app/AdGenerator.php';
+require_once __DIR__ . '/../app/db.php';
 
 $productName = trim($_POST['product_name'] ?? '');
 $description = trim($_POST['description'] ?? '');
@@ -21,6 +22,47 @@ $campaign = $generator->generate([
     'platform' => $platform,
     'price' => $price,
     'sales_url' => $salesUrl,
+]);
+
+$database = getDatabase();
+
+$statement = $database->prepare(
+    '
+    INSERT INTO campaigns (
+        product_name,
+        description,
+        audience,
+        tone,
+        platform,
+        price,
+        sales_url,
+        campaign_json,
+        created_at
+    )
+    VALUES (
+        :product_name,
+        :description,
+        :audience,
+        :tone,
+        :platform,
+        :price,
+        :sales_url,
+        :campaign_json,
+        :created_at
+    )
+    '
+);
+
+$statement->execute([
+    ':product_name' => $productName,
+    ':description' => $description,
+    ':audience' => $audience,
+    ':tone' => $tone,
+    ':platform' => $platform,
+    ':price' => $price,
+    ':sales_url' => $salesUrl,
+    ':campaign_json' => json_encode($campaign, JSON_PRETTY_PRINT),
+    ':created_at' => date('c'),
 ]);
 
 ?>
@@ -52,66 +94,7 @@ $campaign = $generator->generate([
         <li><strong>Price / Offer:</strong> <?= htmlspecialchars($price) ?></li>
         <li><strong>Sales URL:</strong> <?= htmlspecialchars($salesUrl) ?></li>
       </ul>
-    <h2>Ad Angles</h2>
-        <button type="button" onclick="copyTextById('angles')">Copy</button>
-
-        <ul id="angles">
-            <?php foreach ($campaign['angles'] as $angle): ?>
-                <li><?= htmlspecialchars($angle) ?></li>
-            <?php endforeach; ?>
-        </ul>
-
-<h2>Headlines</h2>
-<button type="button" onclick="copyTextById('headlines')">Copy</button>
-<ul id="headlines">
-    <?php foreach ($campaign['headlines'] as $headline): ?>
-        <li><?= htmlspecialchars($headline) ?></li>
-    <?php endforeach; ?>
-    </ul>
-
-<h2>Captions</h2>
-<button type="button" onclick="copyTextById('captions')">Copy</button>
-<ul id="captions">
-    <?php foreach ($campaign['captions'] as $caption): ?>
-        <li><?= htmlspecialchars($caption) ?></li>
-    <?php endforeach; ?>
-    </ul>
-
-<h2>Calls to Action</h2>
-<button type="button" onclick="copyTextById('ctas')">Copy</button>
-<ul id="ctas">
-  <?php foreach ($campaign['ctas'] as $cta): ?>
-    <li><?= htmlspecialchars($cta) ?></li>
-  <?php endforeach; ?>
-</ul>
-
-<h2>Image Prompts</h2>
-<button type="button" onclick="copyTextById('image-prompts')">Copy</button>
-<ul id="image-prompts">
-  <?php foreach ($campaign['image_prompts'] as $prompt): ?>
-    <li><?= htmlspecialchars($prompt) ?></li>
-  <?php endforeach; ?>
-</ul>
-
-<h2>Short Video Scripts</h2>
-
-<?php foreach ($campaign['short_scripts'] as $index => $script): ?>
-  <?php $scriptId = 'script-' . $index; ?>
-
-  <div class="result-card">
-    <h3>Script <?= $index + 1 ?></h3>
-
-    <button type="button" onclick="copyTextById('<?= $scriptId ?>')">
-      Copy Script
-    </button>
-
-    <div id="<?= $scriptId ?>">
-      <p><strong>Hook:</strong> <?= htmlspecialchars($script['hook']) ?></p>
-      <p><strong>Body:</strong> <?= htmlspecialchars($script['body']) ?></p>
-      <p><strong>CTA:</strong> <?= htmlspecialchars($script['cta']) ?></p>
-    </div>
-  </div>
-<?php endforeach; ?>
+    <?php require __DIR__ . '/../app/views/campaign-results.php'; ?>
 
       <p>
         <a href="/">Create another campaign</a>

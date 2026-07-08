@@ -13,4 +13,14 @@ if ($uri !== '/' && file_exists($publicPath)) {
     return false;
 }
 
+if ($uri === '/campaign' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    require __DIR__ . '/public/campaign.php';
+    exit;
+}
+
+if ($uri === '/history') {
+    require __DIR__ . '/public/history.php';
+    exit;
+}
+
 require __DIR__ . '/public/index.php';

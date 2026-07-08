@@ -30,7 +30,9 @@ $defaultSalesUrl = 'https://mbell314.gumroad.com/l/hykfur';
   Build advertising campaigns, social posts, image prompts,
   and short-form video concepts from a single product profile.
 </p>
-
+<p>
+  <a href="/history">View campaign history</a>
+</p>
 <form method="post" action="/generate">
 
   <div class="form-group">

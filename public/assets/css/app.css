@@ -122,3 +122,30 @@ h2 {
 h3 {
   margin-top: 0;
 }
+
+button + ul,
+button + .result-card {
+  margin-top: 12px;
+}
+
+h2 + button {
+  margin-bottom: 12px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--accent);
+}
