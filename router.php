@@ -23,4 +23,5 @@ if ($uri === '/history') {
     exit;
 }
 
+
 require __DIR__ . '/public/index.php';
